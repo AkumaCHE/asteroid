@@ -5,6 +5,8 @@ import pygame
 
 from constants import *
 from player import Player
+from asteroidfield import AsteroidField
+from asteroid import Asteroid
 #from circleshape import CircleShape
 
 def main():
@@ -15,8 +17,11 @@ def main():
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    #field = pygame.sprite.Group()
     Player.containers = (updatable, drawable)
-    
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable)
     #print(f"Screen Initialised: {pygame.display.get_init()}")
     # set_mode(size=(0, 0)
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -25,7 +30,7 @@ def main():
     dt = 0
 
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-    
+    field = AsteroidField()
 
     #GAME LOOP START
     while True:
@@ -36,12 +41,13 @@ def main():
         
         #player.update(dt)
         updatable.update(dt)
+        
         # FILL SCREEN BLACK        
         pygame.Surface.fill(screen,(0,0,0))
         
         # DRAW PLAYER ON SCREEN
-        
         #player.draw(screen)
+        # Draw grouped objects
         for item in drawable:
             item.draw(screen)
         
