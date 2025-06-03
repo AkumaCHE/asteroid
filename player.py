@@ -3,11 +3,13 @@ import pygame
 from circleshape import CircleShape
 from constants import PLAYER_TURN_SPEED, PLAYER_SPEED
 
+
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         #self.radius = PLAYER_RADIUS
+        
 
     # in the player class
     def triangle(self):
@@ -45,4 +47,4 @@ class Player(CircleShape):
         if keys[pygame.K_s]:
             self.move(-dt)
 
-
+    
