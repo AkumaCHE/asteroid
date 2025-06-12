@@ -1,7 +1,7 @@
 from constants import PLAYER_RADIUS
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED
+from constants import PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
 from shot import Shot
 
 
@@ -14,6 +14,7 @@ class Player(CircleShape):
         self.rotation = 0
         #self.shots = shots
         #self.radius = PLAYER_RADIUS
+        self.timer = 0
         
 
     # in the player class
@@ -53,11 +54,30 @@ class Player(CircleShape):
             self.move(-dt)
         if keys[pygame.K_SPACE]:
             self.shoot()
+        
+        self.timer = self.timer - dt
+
+    def shootx(self):
+
+        self.timer = PLAYER_SHOOT_COOLDOWN
+        
+        shot = Shot(self.position.x, self.position.y)
+        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+
 
     def shoot(self):
 
-        shot = Shot(self.position.x, self.position.y)
-        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+
+        if self.timer > 0:
+
+            return
+        else:
+            self.timer = PLAYER_SHOOT_COOLDOWN
+            shot = Shot(self.position.x, self.position.y)
+            shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+            # Decrease the timer by dt every time update is called on the player
+
+            
 
 
         
